@@ -1,0 +1,78 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border;
+    font-family:Kanit;
+}
+body,html{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(160deg,#0093E9,#80D0C7);
+}
+#card{
+    height:550px;
+    width:400px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2%;
+}
+#card img{
+    margin-top: 0px;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: contain;
+    object-position: center;
+}
+#card h1{
+    font-weight: 800;
+    color:rgb(197, 135, 19);
+    font-size: 50px;
+}
+#card h5{
+    font-weight: 700;
+    color: rgb(192, 128, 128); 
+    font-size: 25px;
+}
+#card h1 h5{
+    text-align: center;
+}
+#request{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#button-container{
+    margin-top: 20px;
+    gap: 5px;
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+#button-container button{
+    width: 200px;
+    height: 6%;
+    color: #fff;
+    background-color: rgb(105, 212, 134);
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+    font-size: 15px;
+}
+/* #button-container #remove{
+    background-color: rgb(210, 103, 103);
+    color: #fff;
+} */

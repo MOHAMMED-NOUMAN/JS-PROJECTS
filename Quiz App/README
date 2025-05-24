@@ -1,0 +1,223 @@
+Sure! Let me break this code down step by step and explain key concepts like `datasets`, `classList`, `Array` properties, and how the code functions as a whole.
+
+---
+
+### 1. **Overview of the Code**
+This is a simple quiz application. Here's how it works:
+- A list of questions with answers is stored in an array.
+- The user selects an answer for each question.
+- After selecting an answer, the correct and incorrect options are highlighted, and the user can move to the next question.
+- At the end of the quiz, the total score is displayed, and the user can choose to restart the quiz.
+
+---
+
+### 2. **Explanation of the Code**
+
+#### **`questions` Array**
+```javascript
+const questions = [
+    {
+        question:"Which is the largest animal in the world?",
+        answers:[
+            {text:"Shark",correct:false},
+            {text:"Blue Whale",correct:true},
+            {text:"Giraffe",correct:false},
+            {text:"Camel",correct:false},
+        ]
+    },
+    ...
+];
+```
+- **What is it?**
+  - `questions` is an array of objects. Each object represents a question, and each question contains:
+    - A `question` string.
+    - An `answers` array, where each answer is an object with:
+      - `text`: The text of the answer.
+      - `correct`: A boolean indicating whether the answer is correct.
+- **Key Array Property**:
+  - `forEach` is used later in the code to loop through this array.
+
+---
+
+#### **`startQuiz()` Function**
+```javascript
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+}
+```
+- **What does it do?**
+  - Initializes the quiz:
+    - Resets the question index to `0`.
+    - Resets the score to `0`.
+    - Updates the "Next" button text.
+    - Calls `showQuestion()` to display the first question.
+
+---
+
+#### **`showQuestion()` Function**
+```javascript
+function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + "." + currentQuestion.question;
+
+    currentQuestion.answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.innerHTML = answer.text;
+        button.classList.add("btn");
+        answerButtons.appendChild(button);
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener("click", selectAnswer);
+    });
+}
+```
+- **What does it do?**
+  - Resets the state of the quiz (clears previous question/answers).
+  - Retrieves the current question from the `questions` array.
+  - Displays the question and dynamically creates buttons for the answers.
+  - Each button has:
+    - `button.innerHTML`: Sets the button text to the answer text.
+    - `button.classList.add("btn")`: Adds the `btn` class for styling.
+    - `button.dataset.correct`: Sets a custom `data-correct` attribute to `true` for the correct answer.
+  - Adds an event listener to each button to handle user selection.
+
+---
+
+#### **`resetState()` Function**
+```javascript
+function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+        answerButtons.removeChild(answerButtons.firstChild);
+    }
+}
+```
+- **What does it do?**
+  - Hides the "Next" button.
+  - Clears all answer buttons from the previous question.
+
+---
+
+#### **`selectAnswer()` Function**
+```javascript
+function selectAnswer(e) {
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect) {
+        selectedBtn.classList.add("correct");
+        score++;
+    } else {
+        selectedBtn.classList.add("incorrect");
+    }
+    Array.from(answerButtons.children).forEach(button => {
+        if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nextButton.style.display = "block";
+}
+```
+- **What does it do?**
+  - Gets the button clicked by the user (`e.target`).
+  - Checks if the answer is correct using the `dataset` property.
+  - Highlights the button:
+    - Adds the `correct` class for the correct answer.
+    - Adds the `incorrect` class for the wrong answer.
+  - Disables all buttons after selection.
+  - Shows the "Next" button.
+
+---
+
+#### **`showScore()` Function**
+```javascript
+function showScore() {
+    resetState();
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+    nextButton.innerHTML = "Play Again";
+    nextButton.style.display = "block";
+}
+```
+- **What does it do?**
+  - Clears the question/answers and shows the final score.
+  - Changes the "Next" button to say "Play Again."
+
+---
+
+#### **`handleNextButton()` Function**
+```javascript
+function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        showScore();
+    }
+}
+```
+- **What does it do?**
+  - Moves to the next question or shows the final score if all questions are done.
+
+---
+
+#### **Event Listener for the "Next" Button**
+```javascript
+nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+        handleNextButton();
+    } else {
+        startQuiz();
+    }
+});
+```
+- **What does it do?**
+  - Handles the "Next" button click:
+    - If questions remain, it calls `handleNextButton()`.
+    - If the quiz is over, it restarts the quiz.
+
+---
+
+### 3. **Key JavaScript Concepts Explained**
+
+#### **1. `dataset`**
+- **What is it?**
+  - A way to store custom data attributes (like `data-correct`) in HTML elements.
+- **Example in the Code**:
+  ```javascript
+  button.dataset.correct = answer.correct;
+  ```
+  - Stores whether the answer is correct in the `data-correct` attribute.
+- **Accessing it**:
+  ```javascript
+  const isCorrect = selectedBtn.dataset.correct === "true";
+  ```
+
+#### **2. `classList`**
+- **What is it?**
+  - A property that allows you to manipulate the classes of an element.
+- **Example in the Code**:
+  ```javascript
+  selectedBtn.classList.add("correct");
+  ```
+  - Adds the `correct` class to the button.
+
+#### **3. `Array` Property: `forEach`**
+- **What is it?**
+  - A method that executes a function for each element in an array.
+- **Example in the Code**:
+  ```javascript
+  currentQuestion.answers.forEach(answer => {
+      // Code for each answer
+  });
+  ```
+  - Loops through each answer in the `answers` array and creates a button.
+
+---
+
+Let me know if you'd like to dive deeper into any part! 😊
